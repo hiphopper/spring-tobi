@@ -1,4 +1,4 @@
-package com.study.kks.section1.chapter1_7;
+package com.study.kks.section1.chapter1_8;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,4 +1,4 @@
-package com.study.kks.section1.chapter1_7;
+package com.study.kks.section1.chapter1_7_1;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

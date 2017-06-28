@@ -1,7 +1,9 @@
-package com.study.kks.section1.chapter1_7;
+package com.study.kks.section1.chapter1_8_2;
 
+import com.study.kks.section1.chapter1_8_1.DaoFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
 /**
  * Created by cp91716 on 2017-06-27.
@@ -13,7 +15,7 @@ public class App {
         user.setName("백기선");
         user.setPassword("married");
 
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CountDaoFactory.class);
+        ApplicationContext applicationContext = new GenericXmlApplicationContext("applicationContext_1_8_2.xml");
 
         UserDao userDao = applicationContext.getBean("userDao", UserDao.class);
 
@@ -23,8 +25,5 @@ public class App {
         User user2 = userDao.get(user.getId());
 
         System.out.println(user2.getId() + " 조회 성공");
-
-        CountingConnectionMaker connectionMaker = applicationContext.getBean("connectionMaker", CountingConnectionMaker.class);
-        System.out.println("count : "+connectionMaker.getCount());
     }
 }
