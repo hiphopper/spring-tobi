@@ -16,10 +16,11 @@
   </properties>
 
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/org.junit/com.springsource.org.junit -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <groupId>org.junit</groupId>
+      <artifactId>com.springsource.org.junit</artifactId>
+      <version>4.7.0</version>
       <scope>test</scope>
     </dependency>
 
@@ -52,9 +53,22 @@
       <artifactId>spring-jdbc</artifactId>
       <version>${spring-version}</version>
     </dependency>
-
   </dependencies>
   <build>
     <finalName>spring-tobi</finalName>
   </build>
+
+  <repositories>
+    <repository>
+      <id>com.springsource.repository.bundles.release</id>
+      <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
+      <url>http://repository.springsource.com/maven/bundles/release</url>
+    </repository>
+    <repository>
+      <id>com.springsource.repository.bundles.external</id>
+      <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
+      <url>http://repository.springsource.com/maven/bundles/external</url>
+    </repository>
+  </repositories>
+
 </project>
