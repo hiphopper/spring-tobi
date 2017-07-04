@@ -16,11 +16,10 @@
   </properties>
 
   <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.junit/com.springsource.org.junit -->
     <dependency>
-      <groupId>org.junit</groupId>
-      <artifactId>com.springsource.org.junit</artifactId>
-      <version>4.7.0</version>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
 
@@ -53,6 +52,20 @@
       <artifactId>spring-jdbc</artifactId>
       <version>${spring-version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring-version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.junit/com.springsource.org.junit
+      org.springframework.spring-test 에 의존하고 있다면 com.springsource.org.junit 에 의존하지 않아도 된다.
+    <dependency>
+      <groupId>org.junit</groupId>
+      <artifactId>com.springsource.org.junit</artifactId>
+      <version>4.7.0</version>
+      <scope>test</scope>
+    </dependency>-->
   </dependencies>
   <build>
     <finalName>spring-tobi</finalName>

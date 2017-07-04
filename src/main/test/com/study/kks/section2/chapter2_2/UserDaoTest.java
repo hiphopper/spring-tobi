@@ -21,7 +21,7 @@ public class UserDaoTest {
         user.setName("백기선");
         user.setPassword("married");
 
-        ApplicationContext applicationContext = new GenericXmlApplicationContext("applicationContext_2_2.xml");
+        ApplicationContext applicationContext = new GenericXmlApplicationContext("test_applicationContext_2_2.xml");
         UserDao userDao = applicationContext.getBean("userDao", UserDao.class);
 
         userDao.add(user);
@@ -40,7 +40,7 @@ public class UserDaoTest {
 
     @Test
     public void addAndGet2() throws SQLException{
-        ApplicationContext applicationContext = new GenericXmlApplicationContext("applicationContext_2_2.xml");
+        ApplicationContext applicationContext = new GenericXmlApplicationContext("test_applicationContext_2_2.xml");
         UserDao userDao = applicationContext.getBean("userDao", UserDao.class);
 
         userDao.deleteAll();
