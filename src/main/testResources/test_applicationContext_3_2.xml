@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost/springbook" />
+        <property name="username" value="spring" />
+        <property name="password" value="book" />
+    </bean>-->
+
+    <!-- Maria DB Connection 정보는 위에 mysql로 사용 가능하다 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="org.mariadb.jdbc.Driver" />
+        <property name="url" value="jdbc:mariadb://localhost/springbook" />
+        <property name="username" value="spring" />
+        <property name="password" value="book" />
+    </bean>
+
+    <bean id="userDao" class="com.study.kks.section3.chapter3_2.UserDao">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+</beans>
