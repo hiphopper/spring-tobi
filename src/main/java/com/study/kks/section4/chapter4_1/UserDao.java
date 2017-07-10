@@ -74,7 +74,6 @@ public class UserDao {
 
         // this.jdbcTemplate.queryFor("select count(*) from users");
         // 3.2.2 버전 이후로는 Deprecated 되었으면 상위에는 없어졌음. 그래서 아래와 같이 사용해야함.
-
         return this.jdbcTemplate.queryForObject("select count(*) from users", null, Integer.class);
     }
 
