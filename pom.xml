@@ -49,6 +49,11 @@
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>${spring-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
       <version>${spring-version}</version>
     </dependency>
@@ -66,6 +71,20 @@
       <version>4.7.0</version>
       <scope>test</scope>
     </dependency>-->
+
+    <!-- https://mvnrepository.com/artifact/javax.activation/com.springsource.javax.activation -->
+    <dependency>
+      <groupId>javax.activation</groupId>
+      <artifactId>com.springsource.javax.activation</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/javax.mail/com.springsource.javax.mail -->
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>com.springsource.javax.mail</artifactId>
+      <version>1.4.0</version>
+    </dependency>
+
   </dependencies>
   <build>
     <finalName>spring-tobi</finalName>
