@@ -2,7 +2,9 @@ package com.study.kks.section6.chapter6_2;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.mail.MailException;
+import org.springframework.mail.MailMessage;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -12,6 +14,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
     private List<User> list;
@@ -49,6 +52,32 @@ public class UserServiceTest {
         assertThat(requests.size(), is(2));
         assertThat(list.get(1).getEmail(), is(requests.get(0)));
         assertThat(list.get(3).getEmail(), is(requests.get(1)));
+    }
+
+    @Test
+    public void mockitoUpgradeLevels() throws Exception{
+        UserServiceImpl userServiceImpl = new UserServiceImpl();
+        UserDao mockUserDao = mock(UserDao.class);
+        MailSender mockMailSender = mock(MailSender.class);
+
+        when(mockUserDao.getAll()).thenReturn(this.list);
+
+        userServiceImpl.setUserDao(mockUserDao);
+        userServiceImpl.setMailSender(mockMailSender);
+
+        userServiceImpl.upgradeLevels();
+
+        verify(mockUserDao, times(2)).update(any(User.class)); // update() 파라미터는 무시하고 몇번 호출됐는지 검증하는 코드
+        verify(mockUserDao).update(list.get(1));    // update() 호출된 파라미터가 맞는지 검증하는 코드
+        assertThat(list.get(1).getLevel(), is(Level.SILVER));
+        verify(mockUserDao).update(list.get(3));
+        assertThat(list.get(3).getLevel(), is(Level.GOLD));
+
+        ArgumentCaptor<SimpleMailMessage> mailMessageArg = ArgumentCaptor.forClass(SimpleMailMessage.class);
+        verify(mockMailSender, times(2)).send(mailMessageArg.capture());
+        List<SimpleMailMessage> mailMessages = mailMessageArg.getAllValues();
+        assertThat(mailMessages.get(0).getTo()[0], is(list.get(1).getEmail()));
+        assertThat(mailMessages.get(1).getTo()[0], is(list.get(3).getEmail()));
     }
 
     private void checkUserAndLevel(User updated, String expectedId, Level expectedLevel){
