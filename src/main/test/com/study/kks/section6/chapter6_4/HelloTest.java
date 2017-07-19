@@ -48,7 +48,6 @@ public class HelloTest {
             String ret = (String)invocation.proceed();
             return ret.toUpperCase();
         }
-
     }
 
     interface Hello{
