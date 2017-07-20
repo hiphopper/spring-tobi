@@ -14,21 +14,30 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="mail.server.com" />
-    </bean>
+    <bean id="mailSender" class="com.study.kks.section6.chapter6_5.DummyMailSender" />
 
-    <bean id="userDao" class="com.study.kks.section6.chapter6_1.UserDaoJdbc">
+    <bean id="userDao" class="com.study.kks.section6.chapter6_5.UserDaoJdbc">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="userService" class="com.study.kks.section6.chapter6_1.UserServiceImpl">
+    <bean id="userService" class="com.study.kks.section6.chapter6_5.UserServiceImpl">
         <property name="mailSender" ref="mailSender" />
         <property name="userDao" ref="userDao" />
     </bean>
 
-    <bean id="userServiceTx" class="com.study.kks.section6.chapter6_1.UserServiceTx">
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+
+    <bean id="transactionAdvice" class="com.study.kks.section6.chapter6_5.TransactionAdvice">
         <property name="transactionManager" ref="transactionManager" />
-        <property name="userService" ref="userService" />
+    </bean>
+
+    <bean id="nameMatchClassMethodPointcut" class="com.study.kks.section6.chapter6_5.NameMatchClassMethodPointcut">
+        <property name="mappedClassName" value="*ServiceImpl" />
+        <property name="mappedName" value="upgrade*" />
+    </bean>
+
+    <bean id="transactionAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <property name="advice" ref="transactionAdvice" />
+        <property name="pointcut" ref="nameMatchClassMethodPointcut" />
     </bean>
 </beans>
