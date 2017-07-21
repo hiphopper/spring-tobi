@@ -63,7 +63,7 @@ public class UserServiceTest {
 
         }
 
-        assertThat(list.get(3).getLevel(), is(Level.SILVER));
+        checkLevelUpgraded(list.get(1), false);
     }
 
     private void checkLevelUpgraded(User user, boolean upgraded){

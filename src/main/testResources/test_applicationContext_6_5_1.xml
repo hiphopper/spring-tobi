@@ -5,11 +5,5 @@
 
     <import resource="applicationContext_6_5.xml" />
 
-    <!-- 이후 부터 정의되는 bean 들은 아래 pointcut 으로 적용된다. -->
-    <bean id="transactionPointcut" class="com.study.kks.section6.chapter6_5.NameMatchClassMethodPointcut">
-        <property name="mappedClassName" value="*ServiceImpl" />
-        <property name="mappedName" value="upgrade*" />
-    </bean>
-
     <bean id="testUserService" class="com.study.kks.section6.chapter6_5.UserServiceTest$TestUserServiceImpl" parent="userService" />
 </beans>
