@@ -2,11 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
-
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
-
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+">
     <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
         <property name="driverClass" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost/springbook" />
@@ -18,22 +18,31 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="mailSender" class="com.study.kks.section6.chapter6_5.DummyMailSender" />
+    <bean id="mailSender" class="com.study.kks.section6.chapter6_7.DummyMailSender" />
 
-    <bean id="userDao" class="com.study.kks.section6.chapter6_5.UserDaoJdbc">
+    <bean id="userDao" class="com.study.kks.section6.chapter6_7.UserDaoJdbc">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="userService" class="com.study.kks.section6.chapter6_5.UserServiceImpl">
+    <bean id="userService" class="com.study.kks.section6.chapter6_7.UserServiceImpl">
         <property name="mailSender" ref="mailSender" />
         <property name="userDao" ref="userDao" />
     </bean>
 
-    <bean id="transactionAdvice" class="com.study.kks.section6.chapter6_5.TransactionAdvice">
-        <property name="transactionManager" ref="transactionManager" />
-    </bean>
+<!--<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+
+    <tx:advice id="transactionAdvice">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true" />
+            <tx:method name="*" />
+        </tx:attributes>
+    </tx:advice>
 
     <aop:config>
-        <aop:advisor advice-ref="transactionAdvice" pointcut="execution(* *..*ServiceImpl.upgrade*(..))" />
+        <aop:advisor advice-ref="transactionAdvice" pointcut="bean(*Service)" />
     </aop:config>
+
+    아래 태그 하나로 모든 설정이 대체 가능하다
+-->
+    <tx:annotation-driven />
 </beans>

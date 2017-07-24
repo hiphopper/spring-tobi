@@ -3,9 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <import resource="applicationContext_6_5.xml" />
+    <import resource="applicationContext_6_7.xml" />
 
-    <!-- 이후 부터 정의되는 bean 들은 아래 pointcut 으로 적용된다. -->
-
-    <bean id="testUserService" class="com.study.kks.section6.chapter6_5.UserServiceTest$TestUserService" parent="userService" />
+    <bean id="testUserService" class="com.study.kks.section6.chapter6_7.UserServiceTest$TestUserService" parent="userService" />
 </beans>

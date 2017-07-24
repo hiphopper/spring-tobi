@@ -1,9 +1,10 @@
-package com.study.kks.section6.chapter6_5;
+package com.study.kks.section6.chapter6_6;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -15,12 +16,10 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/test_applicationContext_6_5.xml")
+@ContextConfiguration(locations = "/test_applicationContext_6_6.xml")
 public class UserServiceTest {
     private List<User> list;
 
-    @Autowired
-    private UserDao userDao;
     @Autowired
     private UserService userService;
     @Autowired
@@ -39,8 +38,8 @@ public class UserServiceTest {
 
     @Test
     public void upgradeLevels() throws Exception{
-        userDao.deleteAll();
-        for(User user : list) userDao.add(user);
+        userService.deleteAll();
+        for(User user : list) userService.add(user);
 
         userService.upgradeLevels();
 
@@ -53,8 +52,8 @@ public class UserServiceTest {
 
     @Test
     public void upgradeAllOrNoting() throws Exception{
-        userDao.deleteAll();
-        for(User user : list) userDao.add(user);
+        userService.deleteAll();
+        for(User user : list) userService.add(user);
 
         try{
             this.testUserService.upgradeLevels();
@@ -66,11 +65,16 @@ public class UserServiceTest {
         checkLevelUpgraded(list.get(1), false);
     }
 
+    @Test(expected = TransientDataAccessResourceException.class)
+    public void readOnlyTransactionAttribute(){
+        this.testUserService.getAll();
+    }
+
     private void checkLevelUpgraded(User user, boolean upgraded){
         if(upgraded){
-            assertThat(userDao.get(user.getId()).getLevel(), is(user.getLevel().nextValue()));
+            assertThat(userService.get(user.getId()).getLevel(), is(user.getLevel().nextValue()));
         }else{
-            assertThat(userDao.get(user.getId()).getLevel(), is(user.getLevel()));
+            assertThat(userService.get(user.getId()).getLevel(), is(user.getLevel()));
         }
     }
 
@@ -81,6 +85,14 @@ public class UserServiceTest {
         public void upgradeLevel(User user){
             if(user.getId().equals(id)) throw new TestUserServiceException();
             super.upgradeLevel(user);
+        }
+
+        @Override
+        public List<User> getAll(){
+            for(User user : super.getAll()){
+                super.update(user);
+            }
+            return null;
         }
     }
 
