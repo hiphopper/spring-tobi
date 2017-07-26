@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost/springbook" />
+        <property name="username" value="spring" />
+        <property name="password" value="book" />
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="mailSender" class="com.study.kks.section7.chapter7_1.DummyMailSender" />
+
+    <bean id="userDao" class="com.study.kks.section7.chapter7_1.UserDaoJdbc">
+        <property name="dataSource" ref="dataSource" />
+        <property name="sqlService" ref="sqlService" />
+    </bean>
+
+    <bean id="userService" class="com.study.kks.section7.chapter7_1.UserServiceImpl">
+        <property name="mailSender" ref="mailSender" />
+        <property name="userDao" ref="userDao" />
+    </bean>
+
+    <bean id="sqlService" class="com.study.kks.section7.chapter7_1.SimpleSqlService">
+        <property name="sqlMap">
+            <map>
+                <entry key="userDeleteAll" value="delete from users" />
+                <entry key="userAdd" value="insert into users(id, name, password, level, login, recommend, email) values(?, ?, ?, ?, ?, ?, ?)" />
+                <entry key="userGet" value="select id, name, password, level, login, recommend, email from users where id = ?" />
+                <entry key="userGetCount" value="select count(*) from users" />
+                <entry key="userGetAll" value="select id, name, password, level, login, recommend, email from users order by id" />
+                <entry key="userUpdate" value="update users set name = ?, password = ?, level = ?, login = ?, recommend = ?, email = ? where id = ?" />
+            </map>
+        </property>
+    </bean>
+
+    <tx:annotation-driven />
+</beans>

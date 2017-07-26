@@ -1,4 +1,4 @@
-package com.study.kks.section6.chapter6_8;
+package com.study.kks.section7.chapter7_1;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -22,14 +20,10 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/test_applicationContext_6_8.xml")
-//@Transactional //inner class 에도 적용이 된다
-//@TransactionConfiguration(defaultRollback=false) //롤백 여부 설정.
+@ContextConfiguration(locations = "/test_applicationContext_7_1.xml")
 public class UserServiceTest {
     private List<User> list;
 
-    @Autowired
-    private UserDao userDao;
     @Autowired
     private UserService userService;
     @Autowired
@@ -97,7 +91,6 @@ public class UserServiceTest {
     }
 
     @Test
-    @Transactional // 테스트가 끝나고 rollback 처리를 한다. 만약 rollback 을 원하지 않으면 @Rollback(false) 를 사용하면 된다.
     public void transactionalSync(){
         userService.deleteAll();
         userService.add(list.get(0));
