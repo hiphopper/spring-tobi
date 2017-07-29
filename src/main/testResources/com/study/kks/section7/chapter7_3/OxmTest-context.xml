@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="contextPath" value="com.study.kks.section7.chapter7_3" />
+    </bean>
+
+    <bean id="castorUnmarshaller" class="org.springframework.oxm.castor.CastorMarshaller">
+        <property name="mappingLocation" value="com/study/kks/section7/chapter7_3/mapping.xml" />
+    </bean>
+</beans>

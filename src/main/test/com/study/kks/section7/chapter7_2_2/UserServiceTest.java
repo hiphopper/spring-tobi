@@ -1,4 +1,4 @@
-package com.study.kks.section7.chapter7_2_1;
+package com.study.kks.section7.chapter7_2_2;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/com/study/kks/section7/chapter7_2_1/test_applicationContext_7_2_1.xml")
+@ContextConfiguration(locations = "/com/study/kks/section7/chapter7_2_2/test_applicationContext_7_2_2.xml")
 public class UserServiceTest {
     private List<User> list;
 

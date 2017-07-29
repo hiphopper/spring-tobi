@@ -67,6 +67,11 @@
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
+      <artifactId>spring-oxm</artifactId>
+      <version>${spring-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
       <version>${spring-version}</version>
       <scope>test</scope>
@@ -104,6 +109,12 @@
       <artifactId>aspectjrt</artifactId>
       <version>1.6.8</version>
     </dependency>-->
+    <!-- https://mvnrepository.com/artifact/org.codehaus.castor/com.springsource.org.castor -->
+    <dependency>
+      <groupId>org.codehaus.castor</groupId>
+      <artifactId>com.springsource.org.castor</artifactId>
+      <version>1.2.0</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>spring-tobi</finalName>

@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/test_applicationContext_7_2.xml")
+@ContextConfiguration(locations = "/com/study/kks/section7/chapter7_2/test_applicationContext_7_2.xml")
 public class UserServiceTest {
     private List<User> list;
 
