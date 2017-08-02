@@ -20,27 +20,30 @@
         <property name="password" value="book" />
     </bean>
 
-    <bean id="mailSender" class="com.study.kks.section7.chapter7_3.DummyMailSender" />
+    <bean id="mailSender" class="com.study.kks.section7.chapter7_5.DummyMailSender" />
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
     <bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-        <property name="contextPath" value="com.study.kks.section7.chapter7_3" />
+        <property name="contextPath" value="com.study.kks.section7.chapter7_5" />
     </bean>
 
-    <bean id="sqlService" class="com.study.kks.section7.chapter7_3.OxmSqlService">
+    <bean id="sqlRegistry" class="com.study.kks.section7.chapter7_5.ConcurrentHashMapSqlRegistry" />
+
+    <bean id="sqlService" class="com.study.kks.section7.chapter7_5.OxmSqlService">
         <property name="unmarshaller" ref="unmarshaller" />
-        <property name="sqlmap" value="classpath:com/study/kks/section7/chapter7_3/sqlmap.xml" />
+        <property name="sqlmap" value="classpath:com/study/kks/section7/chapter7_5/sqlmap.xml" />
+        <property name="sqlRegistry" ref="sqlRegistry" />
     </bean>
 
-    <bean id="userDao" class="com.study.kks.section7.chapter7_3.UserDaoJdbc">
+    <bean id="userDao" class="com.study.kks.section7.chapter7_5.UserDaoJdbc">
         <property name="dataSource" ref="dataSource" />
         <property name="sqlService" ref="sqlService" />
     </bean>
 
-    <bean id="userService" class="com.study.kks.section7.chapter7_3.UserServiceImpl">
+    <bean id="userService" class="com.study.kks.section7.chapter7_5.UserServiceImpl">
         <property name="mailSender" ref="mailSender" />
         <property name="userDao" ref="userDao" />
     </bean>
