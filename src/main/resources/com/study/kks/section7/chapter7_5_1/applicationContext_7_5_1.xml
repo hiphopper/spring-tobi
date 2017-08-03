@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+    <tx:annotation-driven /> <!-- @Transactional 이 붙은 타입과 메소드에 트랜잭션 부가기능을 담은
+                                  프록시를 추가하도록 만들어주는 후처리기 등록 -->
+
+    <context:annotation-config /> <!-- 코드의 애노테이션을 이용해서 부가적인 빈 설정
+                                        또는 초기화 작업을 해주는 후처리기를 등록 -->
+
+    <jdbc:embedded-database id="embeddedDatasource" type="HSQL">
+        <jdbc:script location="classpath:com/study/kks/section7/chapter7_5_1/schema.sql" />
+    </jdbc:embedded-database> <!-- 내장형 DB를 등록하도록 도와주는 스키마 전용 태그 -->
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost/springbook" />
+        <property name="username" value="spring" />
+        <property name="password" value="book" />
+    </bean>
+
+    <bean id="mailSender" class="com.study.kks.section7.chapter7_5_1.DummyMailSender" />
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="contextPath" value="com.study.kks.section7.chapter7_5_1" />
+    </bean>
+
+    <bean id="sqlRegistry" class="com.study.kks.section7.chapter7_5_1.EmbeddedDbSqlRegistry">
+        <property name="dataSource" ref="embeddedDatasource" />
+    </bean>
+
+    <bean id="sqlService" class="com.study.kks.section7.chapter7_5_1.OxmSqlService">
+        <property name="unmarshaller" ref="unmarshaller" />
+        <property name="sqlmap" value="classpath:com/study/kks/section7/chapter7_5_1/sqlmap.xml" />
+        <property name="sqlRegistry" ref="sqlRegistry" />
+    </bean>
+
+    <bean id="userDao" class="com.study.kks.section7.chapter7_5_1.UserDaoJdbc">
+        <property name="dataSource" ref="dataSource" />
+        <property name="sqlService" ref="sqlService" />
+    </bean>
+
+    <bean id="userService" class="com.study.kks.section7.chapter7_5_1.UserServiceImpl">
+        <property name="mailSender" ref="mailSender" />
+        <property name="userDao" ref="userDao" />
+    </bean>
+</beans>
