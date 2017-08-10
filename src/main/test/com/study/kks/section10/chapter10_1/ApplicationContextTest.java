@@ -1,5 +1,6 @@
 package com.study.kks.section10.chapter10_1;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
@@ -24,6 +25,13 @@ import static org.junit.Assert.assertThat;
  * Created by Administrator on 2017-08-09.
  */
 public class ApplicationContextTest {
+    private String basePath;
+
+    @Before
+    public void setUp(){
+        this.basePath = StringUtils.cleanPath(ClassUtils.classPackageAsResourcePath(getClass())) + File.separator;
+    }
+
 
     @Test
     public void registerBean(){
@@ -63,10 +71,9 @@ public class ApplicationContextTest {
 
     @Test
     public void genericApplicationContextWithXml(){
-        String resourcePath = StringUtils.cleanPath(ClassUtils.classPackageAsResourcePath(getClass()));
         GenericApplicationContext ac = new GenericApplicationContext();
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(ac);
-        reader.loadBeanDefinitions(resourcePath+ File.separator+"genericApplicationContext.xml");
+        reader.loadBeanDefinitions(basePath+"genericApplicationContext.xml");
         ac.refresh();
 
         Hello hello = ac.getBean("hello", Hello.class);
@@ -78,10 +85,9 @@ public class ApplicationContextTest {
 
     @Test
     public void genericApplicationContextWithProperties(){
-        String resourcePath = StringUtils.cleanPath(ClassUtils.classPackageAsResourcePath(getClass()));
         GenericApplicationContext ac = new GenericApplicationContext();
         PropertiesBeanDefinitionReader reader = new PropertiesBeanDefinitionReader(ac);
-        reader.loadBeanDefinitions(resourcePath+ File.separator+"genericApplicationContext.properties");
+        reader.loadBeanDefinitions(basePath+"genericApplicationContext.properties");
         ac.refresh();
 
         Hello hello = ac.getBean("hello", Hello.class);
@@ -93,13 +99,29 @@ public class ApplicationContextTest {
 
     @Test
     public void genericXmlApplicationContext(){
-        String resourcePath = StringUtils.cleanPath(ClassUtils.classPackageAsResourcePath(getClass()));
-        ApplicationContext ac = new GenericXmlApplicationContext(resourcePath+ File.separator+"genericApplicationContext.xml");
+        ApplicationContext ac = new GenericXmlApplicationContext(basePath+"genericApplicationContext.xml");
 
         Hello hello = ac.getBean("hello", Hello.class);
         hello.print();
 
         assertThat(ac.getBean("printer", Printer.class).toString(), is("Hello Spring"));
+    }
+
+    @Test
+    public void contextExtends(){
+        ApplicationContext parent = new GenericXmlApplicationContext(basePath+"parentContext.xml");
+        GenericApplicationContext child = new GenericApplicationContext(parent);
+        (new XmlBeanDefinitionReader(child)).loadBeanDefinitions(basePath+"childContext.xml");
+        child.refresh();
+
+        Printer printer = child.getBean("printer", Printer.class);
+        assertThat(printer, is(notNullValue()));
+
+        Hello hello = child.getBean("hello", Hello.class);
+        assertThat(hello, is(notNullValue()));
+
+        hello.print();
+        assertThat(printer.toString(), is("Hello Child"));
     }
 
     @Test
