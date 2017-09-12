@@ -1,6 +1,7 @@
 package com.study.kks.section10.chapter10_2;
 
 import org.junit.Test;
+import org.springframework.beans.propertyeditors.CharsetEditor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;

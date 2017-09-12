@@ -8,6 +8,6 @@
     </bean>
 
     <bean id="castorUnmarshaller" class="org.springframework.oxm.castor.CastorMarshaller">
-        <property name="mappingLocation" value="com/study/kks/section7/chapter7_3/mapping.xml" />
+        <property name="mappingLocation" value="mapping.xml" />
     </bean>
 </beans>
